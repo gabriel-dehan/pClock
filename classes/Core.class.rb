@@ -10,7 +10,9 @@ require 'gosu'
 class Core
 	def self.init
 		self::autoload
-		config = CoreConfig.new ARGV
+		config = CoreConfig::instance.config
+		p "---------------------------------"
+		p config
 	end
 
 	private

@@ -3,36 +3,81 @@
 # License:: WTFPL (http://sam.zoy.org/wtfpl/COPYING)
 #
 
-# Config class for the whole project
+# Configuration singleton for the project
 
+require 'singleton'
 require 'find'
 
 class CoreConfig
-	attr_reader :ds
+	include Singleton
 	
-	def initialize args
-		@args   = args
-		@config = {}
-		@ds     = Tools::OS::is?( ['Darwin', 'Linux', 'BSD', 'Unix'] ) ? "/" : "\\"
+	attr_reader :ds, :base_path, :config
+	
+	def initialize
+		@args   	= ARGV
+		@config 	= {}
+		@ds     	= Tools::OS::is?( ['Darwin', 'Linux', 'BSD', 'Unix'] ) ? "/" : "\\"
+		@base_path 	= Dir.getwd
+		ini_path    = @base_path + @ds + 'alarm.ini'
 
-		@args.each do |arg|
-			@config[:sound] = case arg
-				when '-d' then get_random_sound
-				when '--directory' then get_random_sound
-				when '-s' then get_sound
-				when '--sound' then get_sound
-				else 'Default sound path' # TODO: Rajouter un default sound path
-			end
+		ini = AlarmIniParse.new ini_path
 
-			@config[:time] = case arg
-				when '--at' then get_time :at
-				when '--in' then get_time :in
-			end
-		end
+		@config[:sound]  ||= ini.has_key_for_section?( 'Sound', 'directory' ) ? get_random_sound( ini ) : get_sound( ini ) if ini.has_section? 'Sound'
+		@config[:time]   ||= ini.has_key_for_section?( 'Time', 'at' ) 		  ? get_time( :at )         : get_time( :in )  if ini.has_section? 'Time'
+		@config[:day]    ||= ini.has_key_for_section?( 'Day', 'on' )          ? get_days( ini )         : raise ArgumentError, 'Days section incomplete'  if ini.has_section? 'Day'
+		@config[:cron]   ||= ini.has_key_for_section?( 'Crons', 'cron' )      ? get_crons( ini )        : raise ArgumentError, 'Crons section incomplete' if ini.has_section? 'Crons'
+		#@config[:snooze] ||= ini.has_key_for_section?( 'Snooze', 'every' )    ? get_random_sound( ini ) : get_sound( ini ) if ini.has_section? 'Snooze'
+
+		parse_args
 	end
 
 	private
-	def get_sound
+	def parse_args
+		@args.each do |arg|
+			@config[:sound] ||=
+					if arg == '-d' or arg == '--directory'
+						get_random_sound
+					elsif arg == '-s' or arg == '--sound'
+						get_sound
+					end
+
+			@config[:time] ||=
+					if arg == '--at'
+						get_time :at
+					elsif arg == '--in'
+						get_time :in
+					end
+
+			@config[:days] ||=
+					if arg == '--on'
+						get_days
+					end
+			
+			@config[:snooze] ||=
+					if arg == '--snooze'
+						@args[@args.find_index('--snooze').next]
+					end
+		end # @args.each |arg|
+
+		# Default values
+		if @config[:sound].nil?;  @config[:sound]  = @base_path + @ds + 'alarm' + @ds + 'alarm.mp3' end
+		if @config[:snooze].nil?; @config[:snooze] = 5 end
+		if @config[:time].nil?;   raise ArgumentError, 'Time argument unknown' end
+	end
+
+	def get_days( ini = nil )
+		option_index = @args.find_index( '--on' )
+		days = []
+		if option_index
+			option_index.next.upto @args.length do |i|
+				break if /-[\w]|--[\w]+/ =~ @args[i]
+				days << @args[i]
+			end
+			days.join(',')
+		end
+	end
+
+	def get_sound( ini = nil )
 		option_index = @args.find_index( '-s' )
 
 		if option_index
@@ -41,7 +86,7 @@ class CoreConfig
 		end
 	end
 
-	def get_random_sound
+	def get_random_sound( ini = nil )
 		option_index = @args.find_index( '-d' )
 
 		if option_index
@@ -56,7 +101,7 @@ class CoreConfig
 		sound.sample
 	end
 
-	def get_time opt
+	def get_time( opt, ini = nil )
 		option_index = @args.find_index( '--' + opt.to_s )
 		desired_time = @args[option_index.next].split ( ':' )
 		now = Time.now

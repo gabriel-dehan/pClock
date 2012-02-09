@@ -10,3 +10,4 @@ Core::init
 
 now = Time.now
 puts "It's currently #{now.hour}:#{now.min}:#{now.sec}"
+
