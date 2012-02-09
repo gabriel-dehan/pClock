@@ -54,7 +54,6 @@ From command-line
 NOT DONE
 
 [Usage example]
-
 $ ruby pClock/main.rb -d /Users/Name/Music/Coldplay --in 00:25:00
 Will program the clock to wake you up in 25 minutes using a random coldplay song.
 
