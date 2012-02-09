@@ -35,20 +35,20 @@ From command-line
 -----------------
 [Sound Configuration]
 -d | --directory : Path to a directory containing sound files. Careful for it will include subdirectories file.
-				   Will take a random file from this directory
-				   Example : /Users/Name/Music/
+	Will take a random file from this directory
+	Example : /Users/Name/Music/
 
 -s | --sound     : Path to a sound file (MP3/WMV/OGG/MP4)
-				   Example : /User/Name/Music/sound.mp3
+	Example : /User/Name/Music/sound.mp3
 
 [Time Configuration]
 --at : Specifies a time for the Alarm to ring. Format HH:MM:SS
-	   Example : 08:50:00
-	   # If it is actually 02:33:37, it will make the Alarm ring at 08:50:00
+	Example : 08:50:00
+	# If it is actually 02:33:37, it will make the Alarm ring at 08:50:00
 
 --in : Specifies an offset time for the Alarm to ring. Format HH:MM:SS
-	   Example : 03:00:00
-	   # If it is actually 02:33:37, it will make the Alarm ring at 05:33:37
+	Example : 03:00:00
+	# If it is actually 02:33:37, it will make the Alarm ring at 05:33:37
 
 [CRON Configuration]
 NOT DONE
