@@ -20,6 +20,10 @@ class AlarmIniParse
 	end
 
 	def has_key_for_section? section, name
-		@ini_file['section']['name'].nil? ? false : true
+		@ini_file[section][name].nil? ? false : true
+	end
+
+	def document
+		@ini_file
 	end
 end
