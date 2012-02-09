@@ -21,7 +21,8 @@ Install
 -------
 
 [Using sources]
-ruby //path/to/pClock/main.rb
+/!\ The script depends on the following gems : sys-uname, gosu, rufus-scheduler. /!\
+$ ruby //path/to/pClock/main.rb
 
 [Using Executable]
 Double click on .exe/.app/.sh file.
