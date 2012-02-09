@@ -1,0 +1,28 @@
+This script is a programmable Alarm Clock designed to use your MP3/WMV/OGG/MP4 or Sound Directories.
+Works on Mac OS X, Unix and Windows
+
+[Command-line Usage]
+[Sound Configuration]
+-d | --directory : Path to a directory containing sound files. Careful for it will include subdirectories file.
+				   Will take a random file from this directory
+				   Example : /Users/Name/Music/
+
+-s | --sound     : Path to a sound file (MP3/WMV/OGG/MP4)
+				   Example : /User/Name/Music/sound.mp3
+
+[Time Configuration]
+--at : Specifies a time for the Alarm to ring. Format HH:MM:SS
+	   Example : 08:50:00
+	   # If it is actually 02:33:37, it will make the Alarm ring at 08:50:00
+
+--in : Specifies an offset time for the Alarm to ring. Format HH:MM:SS
+	   Example : 03:00:00
+	   # If it is actually 02:33:37, it will make the Alarm ring at 05:33:37
+
+[CRON Configuration]
+NOT DONE
+
+[Configuration file]
+You can use a configuration file to save your favorites directories, sounds, times and to establish a CRON
+
+See alarm.ini (NOT DONE)
