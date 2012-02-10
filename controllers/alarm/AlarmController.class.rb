@@ -3,7 +3,7 @@
 # License:: WTFPL (http://sam.zoy.org/wtfpl/COPYING)
 #
 
-# This class handle all the alarm functionalities
+# This class handles all the Alarm functionalities
 
 class AlarmController
 	
