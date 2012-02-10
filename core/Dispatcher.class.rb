@@ -8,12 +8,19 @@
 
 class Dispatcher
 
+	# Retrieves the configuration file and loads data for the controller
 	def initialize
-		ini 	 = IniConfig.new( BASE_PATH + DS_ + 'alarm.ini' )
-		ini_file = ini.document
+		ini = IniConfig.new( BASE_PATH + DS_ + 'alarm.ini' )
 
-		argumentsData 	= Router::parse( ARGV )
-		configData		= Router::parse( ini_file )
+		# Get data passed trough command-line
+		arguments_data 	= Router::parse( ARGV )
+		# Get data passed trough configuration file
+		config_data		= Router::parse( ini )
+
+		# Join both, keeping command-line data, filling up with config file data
+		data			= Router::join( arguments_data, config_data )
+
+		p data
 	end
 
 end

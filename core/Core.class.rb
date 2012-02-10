@@ -3,32 +3,37 @@
 # License:: WTFPL (http://sam.zoy.org/wtfpl/COPYING)
 #
 
-# Core class, used for initialization
-
+# Gems requirements
 require 'sys/uname'
 require 'find'
 require 'gosu'
 
-class Core
-	@@classes = []
+# Core class, used for initialization
 
+class Core
+	@@autoloads = []
+
+	# Loads every class in './core/' and loads the Dispatcher
 	def self.init
-		self::register_autoloads
-		self::loadClasses
+		self::register_autoloads 'core'
+		self::register_autoloads 'lib'
+
+		self::autoload
 
 		Dispatcher.new
 	end
 
 	private
-	def self.register_autoloads
-		in_path = BASE_PATH + '/core'
-		p in_path
-		Find::find( in_path ) { |file|
-			@@classes << file if File::extname( file ).to_s == ".rb"
+	def self.register_autoloads dir
+		all_in_core = BASE_PATH + DS_ + dir
+
+		Find::find( all_in_core ) { |file|
+			@@autoloads << file if File::extname( file ).to_s == ".rb"
 		}
 	end
 
-	def self.loadClasses
-		@@classes.each { |c| require c }
+	def self.autoload
+		@@autoloads.each { |c| require c }
 	end
+
 end
