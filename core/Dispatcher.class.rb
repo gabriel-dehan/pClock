@@ -5,7 +5,6 @@
 
 # Dispatcher : handles the request and config, loads the frontController
 
-
 class Dispatcher
 
 	# Retrieves the configuration file and loads data for the controller

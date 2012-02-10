@@ -5,6 +5,7 @@
 
 # A convenient class for general purposes
 
+require 'sys/uname'
 
 module Tools
 	class OS
@@ -13,7 +14,7 @@ module Tools
 			if @os_name.nil?
 				begin # use Sys::Uname library if present
 					@os_name 		= Sys::Uname.sysname
-					@architecture = Sys::Uname.machine
+					@architecture	= Sys::Uname.machine
 					@os_version 	= Sys::Uname.release
 				rescue # otherwise use shell
 					@os_name 		= `uname -s`.strip

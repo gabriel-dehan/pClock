@@ -1,7 +1,7 @@
 pClock - Programmable Clock
 ===========================
 
-This script is a programmable Alarm Clock designed to use your MP3/WMV/OGG/MP4 or Sound Directories.
+This script is a programmable Alarm Clock designed to use your MP3/MP4/WMV/OGG/M4A or Sound Directories.
 Works on Mac OS X, Unix and Windows
 
 
@@ -17,11 +17,12 @@ Download
 Executables archives for all basic OS can be Downloaded here :
 NOT DONE
 
+
 Install
 -------
 
 [Using sources]
-/!\ The script depends on the following gems : sys-uname, gosu, rufus-scheduler. /!\
+/!\ The script depends on the following gems : sys-uname, gosu, rufus-scheduler and iniparse. /!\
 $ ruby //path/to/pClock/main.rb
 
 [Using Executable]
@@ -55,7 +56,7 @@ NOT DONE
 
 [Usage example]
 $ ruby pClock/main.rb -d /Users/Name/Music/Coldplay --in 00:25:00
-Will program the clock to wake you up in 25 minutes using a random coldplay song.
+Will program the alarm clock to wake you up in 25 minutes using a random coldplay song.
 
 
 From configuration file

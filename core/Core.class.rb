@@ -4,7 +4,6 @@
 #
 
 # Gems requirements
-require 'sys/uname'
 require 'find'
 require 'gosu'
 
