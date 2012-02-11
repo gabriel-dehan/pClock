@@ -5,6 +5,8 @@
 
 # Handles every sound output for the alarm
 
-class AudioModel
-	
+class AudioModel < Model
+	def load_sound
+		Gosu::Sample.new WINDOW, @data[:sound]
+	end
 end

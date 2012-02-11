@@ -17,9 +17,17 @@ class Dispatcher
 		config_data		= Router::parse( ini )
 
 		# Join both, keeping command-line data, filling up with config file data
-		data			= Router::join( arguments_data, config_data )
+		@data			= Router::join( arguments_data, config_data )
 
-		p data
+		controller = load_controller
+		controller.execute
+
+	end
+
+	private
+	def load_controller
+		require CONTROLLERS_PATH + DS_ + 'front' + DS_ + 'FrontController.class.rb'
+		FrontController.new @data
 	end
 
 end

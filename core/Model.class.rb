@@ -3,12 +3,11 @@
 # License:: WTFPL (http://sam.zoy.org/wtfpl/COPYING)
 #
 
-#
+# Controller
 
-class FrontController < Controller
+class Model
 
-	def execute
-		model = load_model 'audio'
-		sound = model.load_sound
+	def initialize data
+		@data 		= data
 	end
 end
