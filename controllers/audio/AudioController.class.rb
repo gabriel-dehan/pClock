@@ -8,9 +8,9 @@
 class AudioController < Controller
 
 	def execute
+		render 'audio'
+
 		model = load_model 'audio'
 		sound = model.load_sound
-
-		render 'audio'
 	end
 end

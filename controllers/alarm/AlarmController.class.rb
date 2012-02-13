@@ -13,23 +13,12 @@ class AlarmController < Controller
 		scheduler	= Rufus::Scheduler.start_new
 		scheduled	= []
 		remaining	= 5
-		snooze_job	= nil
 
 		scheduled << scheduler.at( @data[:time] ) do |job|
-			# Sound play
+			remaining	= 5
 
-			
-			while remaining
-				if STDIN.gets == "\n"
-					# Sound pause
-					snooze_job = snooze( remaining )
-					remaining -= 1
-				else
-					# Sound pause
-					snooze_job.unschedule unless snooze_job.nil?
-					break
-				end
-			end
+			play
+			snooze( remaining )
 
 			scheduled.delete job
 			job.unschedule
@@ -37,27 +26,50 @@ class AlarmController < Controller
 
 		@data[:cron].each { |cron|
 			scheduled << scheduler.cron( cron ) do |job|
-				# Sound play
+				remaining	= 5
+
+				play
+				snooze( remaining )
 
 				scheduled.delete job
 				job.unschedule
 			end
 		}
-		#scheduled << scheduler.cron @data[:cron] do
 
-		until scheduled.empty?; end
-		#Rufus.parse_time_string s
+		until scheduled.empty? || /e|x|exit|leave|quit|q/ =~ STDIN.gets; end
 	end
 
 	private
 	def snooze remaining
-		p 'snooze'
 		schedule_snooze = Rufus::Scheduler.start_new
-		minutes			= @data[:snooze].to_s + 'm'
-		
-		schedule_snooze.every minutes do |snooze_job|
-			# Sound play
-			snooze_job.unschedule if remaining.zero?
+		snooze_job		= nil
+		minutes			= @data[:snooze].to_s + 's'
+
+		while remaining >= 0
+			if STDIN.gets == "\n"
+
+				@playing.pause
+
+				snooze_job = schedule_snooze.in minutes do |job|
+					@playing.resume
+					puts "Snooze in #{minutes}"
+
+					job.unschedule if remaining.zero?
+				end
+				
+				remaining -= 1
+			else
+				@playing.stop
+				snooze_job.unschedule unless snooze_job.nil?
+				break
+			end
 		end
 	end
+
+	def play
+		@playing = @data[:gosu_sound].play()
+
+		puts "Playing #{@data[:sound]}"
+	end
+
 end

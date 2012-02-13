@@ -5,7 +5,6 @@
 
 # Module AlarmData : holds convenience methods for Routeur data parsing
 
-
 module AlarmData
 
 	def self.init_with_args args
@@ -107,7 +106,9 @@ module AlarmData
 		desired_time[2] += TIME_BUFFER
 
 		if opt === :at
-			return Time::mktime( now.year, now.month, now.day, desired_time[0], desired_time[1], desired_time[2] )
+			time = Time::mktime( now.year, now.month, now.day, desired_time[0], desired_time[1], desired_time[2] )
+			# If ever the time is already passed, we schedule it for the next day
+			( now <=> time ) == 1 ? time + 86400 : time
 		elsif opt === :in
 			return now + (desired_time[0] * 60 * 60) + (desired_time[1] * 60) + desired_time[2]
 		end

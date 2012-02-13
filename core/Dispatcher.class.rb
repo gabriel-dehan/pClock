@@ -22,8 +22,8 @@ class Dispatcher
 		# Join both, keeping command-line data, filling up with config file data
 		@data			= Router::join( arguments_data, config_data )
 
-		controller		= load_controller 'audio'
-		@data[:sound]	= controller.execute
+		controller			= load_controller 'audio'
+		@data[:gosu_sound]	= controller.execute
 
 		# This should be in a view, but...
 		puts '[Ready]'
