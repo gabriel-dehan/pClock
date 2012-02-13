@@ -16,10 +16,11 @@ class Controller
 		return false if @rendered
 
 		name = view.capitalize + 'View'
-		require VIEWS_PATH + name + '.class.rb'
+		require VIEWS_PATH + DS_ + view + DS_ + name + '.class.rb'
 
-		Object::const_get(name).newSi
-
+		view = Object::const_get(name).new @data
+		view.show
+		
 		@rendered = true
 	end
 

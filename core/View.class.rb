@@ -3,11 +3,15 @@
 # License:: WTFPL (http://sam.zoy.org/wtfpl/COPYING)
 #
 
-# Model
+# View
 
-class Model
+class View
 
 	def initialize data
 		@data 		= data
+	end
+
+	def show
+
 	end
 end

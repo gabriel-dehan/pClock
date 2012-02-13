@@ -15,9 +15,10 @@ BASE_PATH			= Dir.getwd
 VIEWS_PATH			= BASE_PATH + DS_ + 'views/'
 CONTROLLERS_PATH	= BASE_PATH + DS_ + 'controllers/'
 MODELS_PATH			= BASE_PATH + DS_ + 'models/'
+TIME_BUFFER			= 1
 WINDOW				= Gosu::Window.new(1, 1, false)
+
 Core::init
 
-now = Time.now
-puts "It's currently #{now.hour}:#{now.min}:#{now.sec}"
+
 

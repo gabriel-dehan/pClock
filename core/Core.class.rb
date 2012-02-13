@@ -6,6 +6,7 @@
 # Gems requirements
 require 'find'
 require 'gosu'
+require 'rufus/scheduler'
 
 # Core class, used for initialization
 

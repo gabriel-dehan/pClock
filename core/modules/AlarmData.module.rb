@@ -52,7 +52,7 @@ module AlarmData
 			sound_file =  @args[option_index.next]
 		end # if ini.nil?
 
-		return sound_file if File::file?( sound_file ) and /mp3|wma|aac|ogg|mp4|m4a/ =~ sound_file
+		return sound_file if File::file?( sound_file ) and /.mp3|.wma|.wav|.aac|.ogg|.mp4|.m4a/ =~ sound_file
 	end
 
 	def self.get_random_sound( ini = nil )
@@ -75,14 +75,17 @@ module AlarmData
 			directory    = directory.end_with?( DS_ ) ? directory : directory + DS_
 		end # if ini.nil?
 
-		Find.find( directory ) { |f| sounds << f if /mp3|wma|aac|ogg|mp4|m4a/ =~ f 	}
+		if ( File.directory? directory )
+			Find.find( directory ) { |f| sounds << f if /.mp3|.wma|.wav|.aac|.ogg|.mp4|.m4a/ =~ f 	}
+		else
+			raise IOError, "#{directory} does not exists"
+		end
 
 		return sounds.sample()
 	end
 
 	def self.get_time( opt, ini = nil )
 		now = Time.now
-
 		# Using configuration file ?
 		if not ini.nil?
 			time_section = ini['Time'][opt.to_s]
@@ -98,10 +101,15 @@ module AlarmData
 			desired_time = @args[option_index.next].split ( ':' )
 		end # if ini.nil?
 
+		desired_time.map! { |e| e.to_i }
+
+		# As the sound loading take a few seconds, we add those few seconds to the waking up time
+		desired_time[2] += TIME_BUFFER
+
 		if opt === :at
-			return Time::mktime( now.year, now.month, now.day, desired_time[0].to_i, desired_time[1].to_i, desired_time[2].to_i )
+			return Time::mktime( now.year, now.month, now.day, desired_time[0], desired_time[1], desired_time[2] )
 		elsif opt === :in
-			return now + (desired_time[0].to_i * 60 * 60) + (desired_time[1].to_i * 60) + desired_time[2].to_i
+			return now + (desired_time[0] * 60 * 60) + (desired_time[1] * 60) + desired_time[2]
 		end
 	end
 

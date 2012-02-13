@@ -3,11 +3,11 @@
 # License:: WTFPL (http://sam.zoy.org/wtfpl/COPYING)
 #
 
-# Model
+# Handles the display for the alarm clock
 
-class Model
+class AudioView < View
 
-	def initialize data
-		@data 		= data
+	def show
+		puts 'Loading sound data...'
 	end
 end
