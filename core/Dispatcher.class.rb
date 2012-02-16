@@ -3,7 +3,7 @@
 # License:: WTFPL (http://sam.zoy.org/wtfpl/COPYING)
 #
 
-# Dispatcher : handles the request and config, loads the frontController
+# Dispatcher : handles the request and config, loads controllers
 
 class Dispatcher
 

@@ -22,7 +22,11 @@ Install
 -------
 
 [Using sources]
-/!\ The script depends on the following gems : sys-uname, gosu, rufus-scheduler and iniparse. /!\
+/!\
+	The script depends on the following gems : sys-uname, gosu, rufus-scheduler and iniparse.
+	Ruby 1.9.3
+/!\
+
 $ ruby //path/to/pClock/main.rb
 
 [Using Executable]
@@ -33,13 +37,13 @@ Double click on .exe/.app/.sh file.
 Usage
 =====
 
-From command-line
------------------
+Launch From command-line
+------------------------
 [Sound Configuration]
 -d | --directory : Path to a directory containing sound files. Careful for it will include subdirectories file. Will take a random file from this directory<
 	Example : /Users/Name/Music/
 
--s | --sound     : Path to a sound file (MP3/WMV/OGG/MP4)
+-s | --sound     : Path to a sound file (MP3/WMV/OGG/MP4). Default to /alarm/alarm.mp3
 	Example : /User/Name/Music/sound.mp3
 
 [Time Configuration]
@@ -51,17 +55,36 @@ From command-line
 	Example : 03:00:00
 	# If it is actually 02:33:37, it will make the Alarm ring at 05:33:37
 
-[CRON Configuration]
-NOT DONE
+[Days Configuration]
+--on : Specifies on which days the alarm will ring. Use only the first 3 letters of the words.
+	Example : mon,tue,wed,thu,fri,sat,sun
+		Or  : tue,fri,sun
+		
+[Snooze Configuration]
+--snooze : Specifies a length between snoozes in minutes. Default to 5.
+	Example : 10
 
 [Usage example]
 $ ruby pClock/main.rb -d /Users/Name/Music/Coldplay --in 00:25:00
 Will program the alarm clock to wake you up in 25 minutes using a random coldplay song.
 
 
-From configuration file
------------------------
-You can use a configuration file to save your favorites directories, sounds, times and to establish a CRON
+Use with configuration file
+---------------------------
+You can use the alarm.ini configuration file to save your favorite directories & sounds, your preferred times or to establish a CRON.
 
-See alarm.ini (NOT DONE)
+See example.ini
+
+/!\ All data passed through the command-line will be used instead of the configuration file's /!\
+
+
+How to use
+----------
+Once launched with all your options, the script will display your hour of awakening and wait 'till it happens.
+When the alarm ring, you can stop it for the day by typing anything, then by pressing "Enter".
+You can also activate the snooze by simply pressing "Enter".
+
+To exit the application, you can write either "q", "e", "x", "quit", "exit", "leave" and press "Enter"
+
+
 
