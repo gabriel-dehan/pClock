@@ -50,7 +50,6 @@ module AlarmData
 			end
 			sound_file =  @args[option_index.next]
 		end # if ini.nil?
-
 		return sound_file if File::file?( sound_file ) and /.mp3|.wma|.wav|.aac|.ogg|.mp4|.m4a/ =~ sound_file
 	end
 
